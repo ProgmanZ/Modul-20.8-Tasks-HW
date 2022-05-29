@@ -8,6 +8,9 @@ family_db = {
     ('Петров', 'Александр'): 46,
     ('Петров', 'Евгений'): 24,
     ('Петрова', 'Алла'): 26,
+    ('Петрушина', 'Инга'): 22,
+    ('Петрушин', 'Антон'): 24,
+    ('Петряков', 'Семен'): 64,
     ('Осокин', 'Владимир'): 65,
     ('Осокина', 'Анастасия'): 47,
     ('Осокин', 'Анатолий'): 36,
@@ -36,21 +39,21 @@ def enter_string():
 def enter_iteration():
     while True:
         user_number = input('Введите количество добавляемых людей: ')
-        if user_number.isalpha():
+        if not user_number.isdigit():
             print('Ошибка ввода. Ожидается ввод только числового значения.')
         else:
             return int(user_number)
 
 
 def enter_variant():
-    print('В программе предустановленная база данных.'
-          '\nВы можете использовать ее или создать новую. ')
-    while True:
-        number = input('Что бы создать новую базу данных введите \'Y\' и нажмите \'Enter\': ')
-        if number.lower() == 'y':
-            return True
-        else:
-            return False
+    print('В программе предустановленная база данных.\nВы можете использовать ее или создать новую. ')
+    print('Чтобы создать новую базу данных - введите \'Y\' и нажмите \'Enter\'.')
+    print('Чтобы продолжить использовать имеющуюся базу - нажмите \'Enter\'.')
+    number = input('Ваш выбор: ')
+    if number.lower() == 'y':
+        return True
+    else:
+        return False
 
 
 def check_name_surname(data_tuple, db_dict):
@@ -79,6 +82,7 @@ if enter_variant():
 surname = check_enter().capitalize()
 keys_found = [surname_in_db for surname_in_db in family_db.keys() if surname_in_db[0].startswith(surname)]
 if len(keys_found) > 0:
+    print()
     for key in keys_found:
         print(f'{key[0]} {key[1]} {family_db[key]}')
 else:
