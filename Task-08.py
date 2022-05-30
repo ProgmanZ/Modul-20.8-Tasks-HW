@@ -47,7 +47,7 @@ def search_surname(search_name, dict_for_search):
         if element[1] == search_name.capitalize():
             print('{0} {1} {2}'.format(*element, dict_for_search[element]))
             return
-    print('Такой фамилии нет в телефонной книге')
+    print('Такой фамилии нет в телефонной книге.')
 
 
 phonebook_db = dict()
