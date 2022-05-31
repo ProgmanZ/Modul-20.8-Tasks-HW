@@ -22,10 +22,11 @@ def check_entered_string(current_iteration):
         elif user_string[1].isdigit():
             print('Второе значение не может быть цифровым.\n')
         else:
-            return user_string[1], user_string[0]
+            return user_string[1], int(user_string[0])
 
 
 scores_db = dict()
+result_db = dict()
 
 for number_iteration in range(1, enter_iteration() + 1):
     string_score = check_entered_string(number_iteration)
@@ -33,7 +34,10 @@ for number_iteration in range(1, enter_iteration() + 1):
         scores_db[string_score[0]] = list()
     scores_db[string_score[0]].append(string_score[1])
 
-print(scores_db)
+for name, values in scores_db.items():
+    result_db[(name, sum(values))] = max(values)
+
+print(sorted(result_db))
 
 
 
