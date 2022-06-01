@@ -39,6 +39,3 @@ for name, values in scores_db.items():
 
 print(sorted(result_db))
 
-
-
-
