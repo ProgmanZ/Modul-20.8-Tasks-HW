@@ -26,16 +26,67 @@ def check_entered_string(current_iteration):
 
 
 scores_db = dict()
+
 result_db = dict()
 
-for number_iteration in range(1, enter_iteration() + 1):
-    string_score = check_entered_string(number_iteration)
+for num_iter in range(1, enter_iteration() + 1):
+
+    string_score = check_entered_string(num_iter)
+
     if string_score[0] not in scores_db.keys():
         scores_db[string_score[0]] = list()
+
     scores_db[string_score[0]].append(string_score[1])
 
-for name, values in scores_db.items():
-    result_db[(name, sum(values))] = max(values)
 
-print(sorted(result_db))
+max_score = {name: max(scores) for name, scores in scores_db.items()}
+prev_score = {name: max(scores[:-1]) for name, scores in scores_db.items()}
 
+for name, scores in max_score.items():
+    if list(max_score.values()).count(scores) > 1:
+        prev_score[name] += scores
+    else:
+        prev_score[name] = scores
+
+count = 0
+print()
+
+for previous_score in sorted(prev_score.values(), reverse=True)[:3]:
+    for name, score in prev_score.items():
+
+        if previous_score == score:
+            count += 1
+            print(f'{count}-е место.\t{name}\t{max_score[name]}')
+
+# qwerty 197128
+# Alex 95715
+# M 95715
+
+# Исходный словарь, который вводится при запуске программы с последними результатами
+# {
+#   'Jack': 95715,
+#   'qwerty': 197128,
+#   'Alex': 95715,
+#   'M': 95715
+#   }
+
+# Словарь, в котором у одинаковых набранных баллах к последнему результату прибавляется предыдущий,
+# с прошлой игры. Получается, что Jack не может быть на 3-м месте.
+# Он, суммарно, за два предыдущих матча набрал меньше очков - чем М.
+# Так же он набрал суммарно за все игры меньше всех.
+
+# Суммы очков за последнюю и предпоследнюю игры
+# {
+# 'Jack': 165200,
+# 'qwerty': 197128,
+# 'Alex': 191430,
+# 'M': 179362
+# }
+
+# Полный словарь после ввода
+#  {
+#     'Jack': [69485, 95715],
+#     'qwerty': [95715, 197128],
+#     'Alex': [95715, 93289, 95715],
+#     'M': [83647, 95715]
+#   }
