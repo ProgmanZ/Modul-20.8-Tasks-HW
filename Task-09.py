@@ -25,68 +25,25 @@ def check_entered_string(current_iteration):
             return user_string[1], int(user_string[0])
 
 
-scores_db = dict()
-
-result_db = dict()
+competition = list()
+result_list = list()
 
 for num_iter in range(1, enter_iteration() + 1):
 
     string_score = check_entered_string(num_iter)
 
-    if string_score[0] not in scores_db.keys():
-        scores_db[string_score[0]] = list()
-
-    scores_db[string_score[0]].append(string_score[1])
-
-
-max_score = {name: max(scores) for name, scores in scores_db.items()}
-prev_score = {name: max(scores[:-1]) for name, scores in scores_db.items()}
-
-for name, scores in max_score.items():
-    if list(max_score.values()).count(scores) > 1:
-        prev_score[name] += scores
+    if string_score not in competition:
+        competition.append(string_score)
     else:
-        prev_score[name] = scores
-
-count = 0
+        if competition[competition.index(string_score)][1] < string_score[1]:
+            competition[competition.index(string_score)] = string_score
 print()
 
-for previous_score in sorted(prev_score.values(), reverse=True)[:3]:
-    for name, score in prev_score.items():
-
-        if previous_score == score:
-            count += 1
-            print(f'{count}-е место.\t{name}\t{max_score[name]}')
-
-# qwerty 197128
-# Alex 95715
-# M 95715
-
-# Исходный словарь, который вводится при запуске программы с последними результатами
-# {
-#   'Jack': 95715,
-#   'qwerty': 197128,
-#   'Alex': 95715,
-#   'M': 95715
-#   }
-
-# Словарь, в котором у одинаковых набранных баллах к последнему результату прибавляется предыдущий,
-# с прошлой игры. Получается, что Jack не может быть на 3-м месте.
-# Он, суммарно, за два предыдущих матча набрал меньше очков - чем М.
-# Так же он набрал суммарно за все игры меньше всех.
-
-# Суммы очков за последнюю и предпоследнюю игры
-# {
-# 'Jack': 165200,
-# 'qwerty': 197128,
-# 'Alex': 191430,
-# 'M': 179362
-# }
-
-# Полный словарь после ввода
-#  {
-#     'Jack': [69485, 95715],
-#     'qwerty': [95715, 197128],
-#     'Alex': [95715, 93289, 95715],
-#     'M': [83647, 95715]
-#   }
+for i in range(3):
+    for competitor in competition:
+        if competitor[1] == max(score for name, score in competition):
+            print(f'{i + 1}-е место. {competitor[0]} ({competitor[1]})')
+            for name in competition:
+                if competitor[0] == name[0]:
+                    competition.remove(name)
+            break
